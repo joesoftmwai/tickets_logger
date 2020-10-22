@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "633629080233",
+    "firebase_url": "https://tickets-logger.firebaseio.com",
+    "project_id": "tickets-logger",
+    "storage_bucket": "tickets-logger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633629080233:android:f50dd4f28bd9982ac487b8",
+        "android_client_info": {
+          "package_name": "com.joesoft.ticketslogger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633629080233-a1f8i9u44ouju1uo7feduetavjp4st2b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmGQTjUMk7s3rehgef1NUxex8cu2wI4QQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633629080233-a1f8i9u44ouju1uo7feduetavjp4st2b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
