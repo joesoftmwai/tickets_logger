@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
+        setupFirebaseAuthListener();
 
         mEmail = findViewById(R.id.email);
         mPassword = findViewById(R.id.password);
@@ -116,7 +117,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Log.d(TAG, "onAuthStateChanged: signed_in " + user.getUid());
                         Toast.makeText(LoginActivity.this, "Authenticated with " + user.getEmail()
                                 , Toast.LENGTH_SHORT).show();
-
+                        Intent intent = new Intent(LoginActivity.this, IssuesActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
 
                     } else {
                         Toast.makeText(getApplicationContext(), "Check your email box for a verification link"
@@ -124,8 +128,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         FirebaseAuth.getInstance().signOut();
 
                     }
+                } else {
+                    Log.d(TAG, "onAuthStateChanged: Signed out");
                 }
             }
         };
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(mAuthStateListener);
     }
 }

@@ -9,9 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".issues.TechnicianDetailsActivity"></activity>
-        <activity android:name=".issues.IssueDetailsActivity" />
-        <activity android:name=".issues.IssuesActivity" />
+        <activity
+            android:name=".technicians.NewTechnicianActivity"
+            android:label="@string/new_technician" />
+        <activity
+            android:name=".technicians.TechniciansActivity"
+            android:label="@string/technicians" />
+        <activity
+            android:name=".technicians.TechnicianDetailsActivity"
+            android:label="@string/edit_technician" />
+        <activity
+            android:name=".issues.NewIssueActivity"
+            android:label="@string/new_issue" />
+        <activity
+            android:name=".issues.IssuesActivity"
+            android:label="@string/issues" />
+        <activity
+            android:name=".issues.IssueDetailsActivity"
+            android:label="@string/edit_issue" />
         <activity
             android:name=".RegisterActivity"
             android:label="@string/register" />

@@ -1,0 +1,11 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="navigation_header">192dp</dimen>
+
+    <dimen name="ui_margin_small">12dp</dimen>
+    <dimen name="ui_margin_medium">14dp</dimen>
+    <dimen name="ui_margin">16dp</dimen>
+    <dimen name="ui_margin_large">20dp</dimen>
+    <dimen name="ui_margin_xl">24dp</dimen>
+
+</resources>

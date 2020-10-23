@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Tickets Logger</string>
+    <string name="new_issue">New Issue</string>
+    <string name="edit_issue">Edit Issue</string>
+    <string name="edit_technician">Edit Technician</string>
+    <string name="new_technician">New Technician</string>
+    <string name="issues">Issues</string>
+    <string name="technicians">Technicians</string>
+
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="register">Register</string>
@@ -9,6 +16,4 @@
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="name_hint">Name</string>
 
-    <string name="issues_fragment">Issues</string>
-    <string name="technicians_fragment">Technicians</string>
 </resources>
