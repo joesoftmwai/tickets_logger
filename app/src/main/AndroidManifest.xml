@@ -13,10 +13,10 @@
             android:name=".technicians.NewTechnicianActivity"
             android:label="@string/new_technician" />
         <activity
-            android:name=".technicians.TechniciansActivity"
+            android:name=".technicians.UsersActivity"
             android:label="@string/technicians" />
         <activity
-            android:name=".technicians.TechnicianDetailsActivity"
+            android:name=".technicians.UserDetailsActivity"
             android:label="@string/edit_technician" />
         <activity
             android:name=".issues.NewIssueActivity"

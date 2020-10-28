@@ -6,15 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".issues.IssuesActivity">
 
-    <ImageView
-        android:id="@+id/imageView3"
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/swipe_refresh_layout"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_add_black_24dp" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_issues"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/list_item_issues" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.nambimobile.widgets.efab.ExpandableFabLayout
         android:id="@+id/expandableFabLayout"
@@ -37,6 +59,7 @@
             android:id="@+id/new_issue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorRed"
             app:fab_icon="@drawable/ic_issue"
             app:label_text="New Issue"
             android:onClick="newIssue"/>
@@ -45,6 +68,7 @@
             android:id="@+id/technicians"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorGreen"
             app:fab_icon="@drawable/ic_technicians_24dp"
             app:label_text="Technicians"
             android:onClick="techniciansList"/>
@@ -53,6 +77,7 @@
             android:id="@+id/new_technician"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorBlue"
             app:fab_icon="@drawable/ic_new_technician_24dp"
             app:label_text="New Technician"
             android:onClick="newTechnician"/>

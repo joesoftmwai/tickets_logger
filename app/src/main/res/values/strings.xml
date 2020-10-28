@@ -15,5 +15,22 @@
     <string name="sign_in">Sign In</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="name_hint">Name</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="save">Save</string>
+    <string name="issue_type">Issue Type</string>
+    <string name="issue_title_hint">Title</string>
+    <string name="issue_description_hint">Description</string>
+    <string name="add_attachment">Add attachment</string>
+    <string name="issue_priority">Priority</string>
+    <string name="issue_status">Status: </string>
+
+    <!-- Collections-->
+    <string name="issues_collection">issues</string>
+    <string name="users_collection">users</string>
+    <string name="attachments_collection">attachments</string>
+
+    <string name="assignee">Assignee</string>
+    <string name="comments">Comments</string>
+    <string name="reporter_hint">Reporter</string>
 
 </resources>

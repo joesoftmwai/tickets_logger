@@ -10,18 +10,18 @@ import android.view.MenuItem;
 
 import com.joesoft.ticketslogger.R;
 
-public class NewTechnicianActivity extends AppCompatActivity {
+public class UserDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_technician);
+        setContentView(R.layout.activity_technician_details);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.new_technician_menu, menu);
+        inflater.inflate(R.menu.edit_technician_menu, menu);
         return true;
     }
 

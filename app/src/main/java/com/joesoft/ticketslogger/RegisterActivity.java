@@ -18,6 +18,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.joesoft.ticketslogger.models.User;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "RegisterActivity";
@@ -70,8 +73,36 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             Log.d(TAG, "createUserWithEmail: success");
                             // sendVerification
                             sendEmailVerification();
-                            mAuth.signOut();
-                            redirectToLoginScreen();
+                            // add user to firestore
+                            User user = new User();
+                            user.setName(mName.getText().toString());
+                            user.setPhone("");
+                            user.setRole("");
+                            user.setProfile_image("");
+                            user.setUser_id(mAuth.getCurrentUser().getUid());
+                            user.setIssues_closed("0");
+                            user.setLast_login(null);
+
+                            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                            DocumentReference newUserRef = firestore
+                                    .collection(getString(R.string.users_collection))
+                                    .document(mAuth.getCurrentUser().getUid());
+
+                            newUserRef.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        mAuth.signOut();
+                                        redirectToLoginScreen();
+                                    } else {
+                                        mAuth.signOut();
+                                        redirectToLoginScreen();
+                                        Log.d(TAG, "onFailure: " + task.getException());
+                                        Toast.makeText(getApplicationContext(), "Something went wrong "
+                                                + task.getException(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                             mProgressBar.setVisibility(View.INVISIBLE);
                         } else {
                             Log.d(TAG, "createUserWithEmail: failure", task.getException());
