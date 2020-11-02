@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -57,7 +56,7 @@ public class IssueDetailsActivity extends AppCompatActivity {
         mPrioritySpinner = findViewById(R.id.priority_spinner);
         mStatusSpinner = findViewById(R.id.status_spinner);
         mAssigneeSpinner = findViewById(R.id.assignee_spinner);
-        mComments = findViewById(R.id.edit_text_comments);
+        mComments = findViewById(R.id.edit_text_comment);
         mProgressBar =findViewById(R.id.progress_bar);
         
         if (getIssueDetails()) {
@@ -90,7 +89,7 @@ public class IssueDetailsActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document= task.getResult();
                     assert document != null;
-                    mReporter.setText(document.getString("name"));
+                    mReporter.setText(document.getString(getString(R.string.name_field)));
                 }
             }
         });
@@ -99,6 +98,7 @@ public class IssueDetailsActivity extends AppCompatActivity {
     private boolean getIssueDetails() {
         if (getIntent().hasExtra(ISSUE_DETAILS)) {
             mIssue = getIntent().getParcelableExtra(ISSUE_DETAILS);
+            Log.d(TAG, "getIssueDetails: Issue,  " + mIssue.toString());
             return true;
         }
         return false;
@@ -293,4 +293,5 @@ public class IssueDetailsActivity extends AppCompatActivity {
             });
         }
     }
+
 }

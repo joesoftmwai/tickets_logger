@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,8 +27,10 @@ import com.joesoft.ticketslogger.LoginActivity;
 import com.joesoft.ticketslogger.R;
 import com.joesoft.ticketslogger.adapters.IssuesRecyclerAdapter;
 import com.joesoft.ticketslogger.models.Issue;
-import com.joesoft.ticketslogger.technicians.NewTechnicianActivity;
-import com.joesoft.ticketslogger.technicians.UsersActivity;
+import com.joesoft.ticketslogger.users.NewTechnicianActivity;
+import com.joesoft.ticketslogger.users.UserDetailsActivity;
+import com.joesoft.ticketslogger.users.UsersActivity;
+import com.joesoft.ticketslogger.utils.IssuesCountUtil;
 
 import java.util.ArrayList;
 
@@ -70,9 +71,9 @@ public class IssuesActivity extends AppCompatActivity implements SwipeRefreshLay
         }
 
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        CollectionReference issuesRef = firestore.collection(getString(R.string.issues_collection));
-        issuesRef.whereEqualTo("status", "Closed");
-                issuesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firestore.collection(getString(R.string.issues_collection))
+                .whereNotEqualTo("status", "Closed")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -117,9 +118,13 @@ public class IssuesActivity extends AppCompatActivity implements SwipeRefreshLay
         if (id == R.id.action_signout) {
             FirebaseAuth.getInstance().signOut();
             return true;
+        } else if (id == R.id.action_account) {
+            Intent intent = new Intent(this, UserDetailsActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
     public void newIssue(View view) {
@@ -127,12 +132,12 @@ public class IssuesActivity extends AppCompatActivity implements SwipeRefreshLay
         startActivity(intent);
     }
 
-    public void newTechnician(View view) {
+    public void newUser(View view) {
         Intent intent = new Intent(IssuesActivity.this, NewTechnicianActivity.class);
         startActivity(intent);
     }
 
-    public void techniciansList(View view) {
+    public void usersList(View view) {
         Intent intent = new Intent(IssuesActivity.this, UsersActivity.class);
         startActivity(intent);
     }
@@ -196,5 +201,7 @@ public class IssuesActivity extends AppCompatActivity implements SwipeRefreshLay
     private void onItemsLoadComplete() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
+
+
 }
 

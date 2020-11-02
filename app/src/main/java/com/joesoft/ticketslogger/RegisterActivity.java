@@ -80,8 +80,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             user.setRole("");
                             user.setProfile_image("");
                             user.setUser_id(mAuth.getCurrentUser().getUid());
-                            user.setIssues_closed("0");
+                            user.setEmail(mAuth.getCurrentUser().getEmail());
                             user.setLast_login(null);
+                            user.setDate_created(null);
 
                             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                             DocumentReference newUserRef = firestore

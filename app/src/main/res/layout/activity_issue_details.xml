@@ -132,31 +132,18 @@
         app:layout_constraintTop_toBottomOf="@+id/status_spinner" />
 
     <EditText
-        android:id="@+id/edit_text_comments"
+        android:id="@+id/edit_text_comment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:autofillHints=""
         android:ems="10"
         android:gravity="start|top"
-        android:hint="@string/comments"
+        android:hint="@string/add_comments"
         android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/assignee_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/send_img"
         app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/assignee_spinner"
-        android:autofillHints="" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/attachments_collection"
-        android:textAlignment="center"
-        android:textColor="@color/colorAccent"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/edit_text_comments"
-        app:layout_constraintStart_toStartOf="@+id/edit_text_comments"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_comments" />
+        app:layout_constraintTop_toBottomOf="@+id/assignee_spinner" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -164,9 +151,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/issue_type_spinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textInputLayout11" />
+
+    <ImageView
+        android:id="@+id/send_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_text_comment"
+        app:layout_constraintEnd_toEndOf="@+id/assignee_spinner"
+        app:layout_constraintStart_toEndOf="@+id/edit_text_comment"
+        app:layout_constraintTop_toTopOf="@+id/edit_text_comment"
+        app:srcCompat="@drawable/ic_send_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

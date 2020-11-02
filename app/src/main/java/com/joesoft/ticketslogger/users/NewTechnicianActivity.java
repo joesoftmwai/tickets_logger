@@ -1,4 +1,4 @@
-package com.joesoft.ticketslogger.technicians;
+package com.joesoft.ticketslogger.users;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,18 +10,18 @@ import android.view.MenuItem;
 
 import com.joesoft.ticketslogger.R;
 
-public class UserDetailsActivity extends AppCompatActivity {
+public class NewTechnicianActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_technician_details);
+        setContentView(R.layout.activity_new_technician);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.edit_technician_menu, menu);
+        inflater.inflate(R.menu.new_technician_menu, menu);
         return true;
     }
 

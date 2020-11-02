@@ -10,14 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".technicians.NewTechnicianActivity"
-            android:label="@string/new_technician" />
+            android:name=".users.NewTechnicianActivity"
+            android:label="@string/new_user" />
         <activity
-            android:name=".technicians.UsersActivity"
-            android:label="@string/technicians" />
+            android:name=".users.UsersActivity"
+            android:label="@string/users" />
         <activity
-            android:name=".technicians.UserDetailsActivity"
-            android:label="@string/edit_technician" />
+            android:name=".users.UserDetailsActivity"
+            android:label="@string/account_details" />
         <activity
             android:name=".issues.NewIssueActivity"
             android:label="@string/new_issue" />

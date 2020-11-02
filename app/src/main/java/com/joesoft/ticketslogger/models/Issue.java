@@ -57,6 +57,7 @@ public class Issue implements Parcelable {
         assignee = in.readString();
         issue_id = in.readString();
         comments = in.readString();
+        time_reported = (Date) in.readSerializable();
     }
 
     public static final Creator<Issue> CREATOR = new Creator<Issue>() {
@@ -188,5 +189,22 @@ public class Issue implements Parcelable {
         dest.writeString(assignee);
         dest.writeString(issue_id);
         dest.writeString(comments);
+        dest.writeSerializable(time_reported);
+    }
+
+    @Override
+    public String toString() {
+        return "Issue{" +
+                "issue_type='" + issue_type + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
+                ", priority=" + priority +
+                ", time_reported=" + time_reported +
+                ", reporter='" + reporter + '\'' +
+                ", assignee='" + assignee + '\'' +
+                ", issue_id='" + issue_id + '\'' +
+                ", comments='" + comments + '\'' +
+                '}';
     }
 }

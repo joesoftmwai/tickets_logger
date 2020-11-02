@@ -13,20 +13,22 @@ public class User implements Parcelable{
     private String profile_image;
     private String role;
     private String user_id;
-    private String issues_closed;
+    private String email;
     private @ServerTimestamp Date last_login;
+    private @ServerTimestamp Date date_created;
 
     public User() {
     }
 
-    public User(String name, String phone, String profile_image, String role, String user_id, String issues_closed, Date last_login) {
+    public User(String name, String phone, String profile_image, String role, String user_id, String email, Date last_login, Date date_created) {
         this.name = name;
         this.phone = phone;
         this.profile_image = profile_image;
         this.role = role;
         this.user_id = user_id;
-        this.issues_closed = issues_closed;
+        this.email = email;
         this.last_login = last_login;
+        this.date_created = date_created;
     }
 
     protected User(Parcel in) {
@@ -35,7 +37,9 @@ public class User implements Parcelable{
         profile_image = in.readString();
         role = in.readString();
         user_id = in.readString();
-        issues_closed = in.readString();
+        email = in.readString();
+        last_login = (Date) in.readSerializable();
+        date_created = (Date) in.readSerializable();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -49,6 +53,7 @@ public class User implements Parcelable{
             return new User[size];
         }
     };
+
 
     public String getName() {
         return name;
@@ -90,12 +95,12 @@ public class User implements Parcelable{
         this.user_id = user_id;
     }
 
-    public String getIssues_closed() {
-        return issues_closed;
+    public String getEmail() {
+        return email;
     }
 
-    public void setIssues_closed(String issues_closed) {
-        this.issues_closed = issues_closed;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Date getLast_login() {
@@ -104,6 +109,14 @@ public class User implements Parcelable{
 
     public void setLast_login(Date last_login) {
         this.last_login = last_login;
+    }
+
+    public Date getDate_created() {
+        return date_created;
+    }
+
+    public void setDate_created(Date date_created) {
+        this.date_created = date_created;
     }
 
     @Override
@@ -118,7 +131,23 @@ public class User implements Parcelable{
         dest.writeString(profile_image);
         dest.writeString(role);
         dest.writeString(user_id);
-        dest.writeString(issues_closed);
+        dest.writeString(email);
+        dest.writeSerializable(last_login);
+        dest.writeSerializable(date_created);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", profile_image='" + profile_image + '\'' +
+                ", role='" + role + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", email='" + email + '\'' +
+                ", last_login='" + last_login + '\'' +
+                ", date_created=" + date_created +
+                '}';
     }
 }
 

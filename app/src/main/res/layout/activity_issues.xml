@@ -65,22 +65,22 @@
             android:onClick="newIssue"/>
 
         <com.nambimobile.widgets.efab.FabOption
-            android:id="@+id/technicians"
+            android:id="@+id/users"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorGreen"
             app:fab_icon="@drawable/ic_technicians_24dp"
-            app:label_text="Technicians"
-            android:onClick="techniciansList"/>
+            app:label_text="@string/users"
+            android:onClick="usersList"/>
 
         <com.nambimobile.widgets.efab.FabOption
-            android:id="@+id/new_technician"
+            android:id="@+id/new_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorBlue"
             app:fab_icon="@drawable/ic_new_technician_24dp"
-            app:label_text="New Technician"
-            android:onClick="newTechnician"/>
+            app:label_text="@string/new_user"
+            android:onClick="newUser"/>
 
     </com.nambimobile.widgets.efab.ExpandableFabLayout>
 

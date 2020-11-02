@@ -14,12 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.joesoft.ticketslogger.issues.IssuesActivity;
+import com.joesoft.ticketslogger.models.User;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "LoginActivity";
@@ -27,7 +32,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView mRegister, mForgotPassword, mResendVerification;
     private Button mBtnSignIn;
     private ProgressBar mProgressBar;
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -80,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "signInWithEmail: success");
+                                    updateLastLogin();
                                     Intent issuesIntent = new Intent(LoginActivity.this, IssuesActivity.class);
                                     startActivity(issuesIntent);
                                     finish();
@@ -97,6 +102,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(getApplicationContext(),
                     "Please fill all fields", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateLastLogin() {
+        final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection(getString(R.string.users_collection))
+                .document(mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            User user = task.getResult().toObject(User.class);
+                            assert user != null;
+                            user.setName(user.getName());
+                            user.setPhone(user.getPhone());
+                            user.setRole(user.getRole());
+                            user.setProfile_image(user.getProfile_image());
+                            user.setUser_id(user.getUser_id());
+                            user.setEmail(user.getEmail());
+                            user.setLast_login(null);
+                            user.setDate_created(user.getDate_created());
+
+                            firestore.collection(getString(R.string.users_collection))
+                                    .document(mAuth.getCurrentUser().getUid()).set(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // updated last login
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d(TAG, "onFailure: failed to update last login, " + e.getCause());
+                                        }
+                                    });
+                        }
+                    }
+                });
     }
 
     private boolean validateEmail(String email) {
@@ -126,7 +170,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(getApplicationContext(), "Check your email box for a verification link"
                                 + user.getEmail(), Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
-
                     }
                 } else {
                     Log.d(TAG, "onAuthStateChanged: Signed out");
