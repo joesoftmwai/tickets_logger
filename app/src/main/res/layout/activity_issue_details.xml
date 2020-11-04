@@ -141,9 +141,9 @@
         android:gravity="start|top"
         android:hint="@string/add_comments"
         android:inputType="textMultiLine"
-        app:layout_constraintEnd_toStartOf="@+id/send_img"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/assignee_spinner" />
+        app:layout_constraintEnd_toEndOf="@+id/view_comments"
+        app:layout_constraintStart_toStartOf="@+id/view_comments"
+        app:layout_constraintTop_toBottomOf="@+id/view_comments" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -156,15 +156,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textInputLayout11" />
 
-    <ImageView
-        android:id="@+id/send_img"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/view_comments"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_text_comment"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/darker_gray"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/view_comments"
+        android:inputType="textPersonName"
+        android:padding="5dp"
+        android:text="@string/view_comments"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="@+id/assignee_spinner"
-        app:layout_constraintStart_toEndOf="@+id/edit_text_comment"
-        app:layout_constraintTop_toTopOf="@+id/edit_text_comment"
-        app:srcCompat="@drawable/ic_send_24dp" />
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/assignee_spinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

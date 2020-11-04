@@ -12,19 +12,24 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.joesoft.ticketslogger.R;
+import com.joesoft.ticketslogger.models.Comment;
 import com.joesoft.ticketslogger.models.Issue;
 import com.joesoft.ticketslogger.models.User;
 import com.joesoft.ticketslogger.utils.SpinnerAdapter;
@@ -33,16 +38,19 @@ import com.joesoft.ticketslogger.utils.SpinnerResources;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class IssueDetailsActivity extends AppCompatActivity {
+public class IssueDetailsActivity extends AppCompatActivity implements IIssuesDetails, View.OnClickListener {
     private static final String TAG = "IssueDetailsActivity";
     public static final String ISSUE_DETAILS = "com.joesoft.ticketslogger.issues.ISSUE_DETAILS";
     private TextInputEditText mIssueTitle, mIssueDescription, mReporter;
     private Spinner mIssueTypeSpinner, mPrioritySpinner, mStatusSpinner, mAssigneeSpinner;
-    private EditText mComments;
+    private EditText mComment;
+    private TextView mViewComments;
+    private ImageView mSendImg;
     private ProgressBar mProgressBar;
     private Issue mIssue;
     private ArrayList<User> mUsers = new ArrayList<>();
     private String[] mUserNames;
+    private ArrayList<Comment> mComments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +64,18 @@ public class IssueDetailsActivity extends AppCompatActivity {
         mPrioritySpinner = findViewById(R.id.priority_spinner);
         mStatusSpinner = findViewById(R.id.status_spinner);
         mAssigneeSpinner = findViewById(R.id.assignee_spinner);
-        mComments = findViewById(R.id.edit_text_comment);
+        mComment = findViewById(R.id.edit_text_comment);
+        mViewComments = findViewById(R.id.view_comments);
         mProgressBar =findViewById(R.id.progress_bar);
+
+        mViewComments.setOnClickListener(this);
         
         if (getIssueDetails()) {
             initIssueTypeSpinner();
             initPrioritySpinner();
             initStatusSpinner();
-            getUsers();
+            getAssignees();
+            getIssueComments();
             setIssueDetails();
         } else {
             Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
@@ -75,7 +87,6 @@ public class IssueDetailsActivity extends AppCompatActivity {
         mIssueTitle.setText(mIssue.getTitle());
         mIssueDescription.setText(mIssue.getDescription());
         setReporterName();
-        mComments.setText(mIssue.getComments());
     }
 
     private void setReporterName() {
@@ -105,7 +116,7 @@ public class IssueDetailsActivity extends AppCompatActivity {
     }
 
 
-    private void getUsers() {
+    private void getAssignees() {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore.collection(getString(R.string.users_collection))
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -250,6 +261,7 @@ public class IssueDetailsActivity extends AppCompatActivity {
              return true;
         } else if (id == R.id.action_save) {
             updateIssueDetails();
+            addComment();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -257,7 +269,7 @@ public class IssueDetailsActivity extends AppCompatActivity {
 
     private void updateIssueDetails() {
         if (!mIssueTitle.getText().toString().isEmpty() && !mIssueDescription.getText().toString().isEmpty()
-                && !mComments.getText().toString().isEmpty()) {
+                && !mComment.getText().toString().isEmpty()) {
             mProgressBar.setVisibility(View.VISIBLE);
 
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -275,7 +287,6 @@ public class IssueDetailsActivity extends AppCompatActivity {
             issue.setTime_reported(mIssue.getTime_reported());
             issue.setStatus(mStatusSpinner.getSelectedItem().toString());
             issue.setIssue_id(mIssue.getIssue_id());
-            issue.setComments(mComments.getText().toString());
 
             updateIssueRef.set(issue).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -292,6 +303,90 @@ public class IssueDetailsActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.view_comments) {
+            CommentsDialog commentsDialog = new CommentsDialog();
+            commentsDialog.show(getSupportFragmentManager(), getString(R.string.comments_dialog_tag));
+        }
+    }
+
+    private void addComment() {
+        if (mComment.getText().toString().isEmpty()) {
+            mComment.setError("Required field");
+        } else {
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            DocumentReference newCommentRef = firestore.collection(getString(R.string.issues_collection))
+                    .document(mIssue.getIssue_id())
+                    .collection(getString(R.string.comments_collection))
+                    .document();
+            Comment comment = new Comment();
+            comment.setComment(mComment.getText().toString());
+            comment.setComment_id(newCommentRef.getId());
+            comment.setIssue_id(mIssue.getIssue_id());
+            comment.setCommented_by(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            comment.setTime_created(null);
+
+            newCommentRef.set(comment).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "New Comment added", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d(TAG, "onComplete: Failed to add New Comment, " + task.getResult());
+                        Toast.makeText(getApplicationContext(), "Failed to add New Comment", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+
+    }
+
+    @Override
+    public ArrayList<Comment> getIssueComments() {
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            firestore.collection(getString(R.string.issues_collection))
+                    .document(mIssue.getIssue_id())
+                    .collection(getString(R.string.comments_collection))
+                    .orderBy("time_created", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                                    Comment comment = documentSnapshot.toObject(Comment.class);
+                                    // mComments.clear();
+                                    mComments.add(comment);
+                                }
+                            }
+                        }
+                    });
+
+        return mComments;
+    }
+
+    @Override
+    public ArrayList<User> getUsers() {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection(getString(R.string.users_collection))
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult() != null) {
+                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                            User user = documentSnapshot.toObject(User.class);
+                            // mUsers.clear();
+                            mUsers.add(user);
+                        }
+                    }
+                }
+            }
+        });
+        return mUsers;
     }
 
 }

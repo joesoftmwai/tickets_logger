@@ -152,7 +152,6 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                         mIssue.setTime_reported(mIssue.getTime_reported());
                         mIssue.setStatus(mIssue.getStatus());
                         mIssue.setIssue_id(mIssue.getIssue_id());
-                        mIssue.setComments(mIssue.getComments());
 
                         firestore.collection(getString(R.string.issues_collection))
                                 .document(mIssue.getIssue_id()).set(mIssue)

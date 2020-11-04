@@ -29,6 +29,7 @@
     <string name="issues_collection">issues</string>
     <string name="users_collection">users</string>
     <string name="attachments_collection">attachments</string>
+    <string name="comments_collection">comments</string>
 
     <!-- User collections fields -->
     <string name="name_field">name</string>
@@ -42,12 +43,16 @@
 
     <string name="assignee">Assignee</string>
     <string name="add_comments">Add Comment</string>
+    <string name="comments">Comments</string>
+    <string name="view_comments">View Comments</string>
     <string name="reporter_hint">Reporter</string>
     <string name="account">Account</string>
 
     <string name="solved_issues">Solved Issues</string>
     <string name="assigned_issues">Assigned Issues</string>
     <string name="last_login_label">Last login:</string>
+
+    <string name="comments_dialog_tag">Comments Dialog</string>
 
 
 </resources>

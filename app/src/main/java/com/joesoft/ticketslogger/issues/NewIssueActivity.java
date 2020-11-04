@@ -129,7 +129,6 @@ public class NewIssueActivity extends AppCompatActivity {
             issue.setTime_reported(null);
             issue.setStatus(Issue.NEW);
             issue.setIssue_id(newIssueRef.getId());
-            issue.setComments("");
 
             newIssueRef.set(issue).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
